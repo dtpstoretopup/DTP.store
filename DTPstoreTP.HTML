@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>DTPstore — Top Up Game & E-Wallet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --primary:#22d3ee;
+  --accent:#22c55e;
+  --dark:#020617;
+  --glass:rgba(15,23,42,.78);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Segoe UI',system-ui;
+  background:
+    radial-gradient(circle at top,#38bdf8 0%,transparent 40%),
+    linear-gradient(180deg,#020617,#020617);
+  color:#fff;
+}
+
+header{
+  padding:40px 20px;
+  text-align:center;
+}
+
+.logo{
+  font-size:36px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.logo span{
+  color:var(--primary);
+  text-shadow:0 0 20px var(--primary);
+}
+
+header p{
+  margin-top:10px;
+  font-size:14px;
+  opacity:.85;
+}
+
+.badge{
+  display:inline-block;
+  margin-top:12px;
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--accent),#4ade80);
+  color:#020617;
+}
+
+.container{
+  max-width:440px;
+  margin:auto;
+}
+
+.card{
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border-radius:26px;
+  padding:28px;
+  margin-bottom:30px;
+  border:1px solid rgba(255,255,255,.1);
+}
+
+h2{
+  margin:0 0 16px;
+  font-size:20px;
+}
+
+.field{margin-top:14px}
+
+label{
+  font-size:13px;
+  opacity:.85;
+}
+
+select,input{
+  width:100%;
+  margin-top:8px;
+  padding:15px;
+  border-radius:16px;
+  background:#020617;
+  border:1px solid #1e293b;
+  color:white;
+  font-size:15px;
+}
+
+select:focus,input:focus{
+  border-color:var(--primary);
+  outline:none;
+}
+
+.price{
+  margin-top:20px;
+  padding:18px;
+  border-radius:16px;
+  background:#020617;
+  text-align:center;
+  font-size:20px;
+  font-weight:800;
+  color:var(--accent);
+}
+
+.summary{
+  margin-top:18px;
+  padding:16px;
+  border-radius:16px;
+  background:#020617;
+  font-size:14px;
+  line-height:1.6;
+  border:1px dashed var(--primary);
+}
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:18px;
+  border:none;
+  border-radius:20px;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+  color:#020617;
+  background:linear-gradient(135deg,var(--accent),#4ade80);
+}
+
+.loader{
+  display:none;
+  text-align:center;
+  margin-top:18px;
+  font-size:13px;
+  opacity:.8;
+}
+
+footer{
+  text-align:center;
+  font-size:12px;
+  opacity:.6;
+  padding:30px 15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">⚡ <span>DTP</span>store</div>
+  <p>Top Up Game & E-Wallet • Cepat • Aman • Terpercaya</p>
+  <div class="badge">AUTO PROCESS • 24 JAM</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>🛒 Top Up</h2>
+
+<div class="field">
+<label>Produk</label>
+<select id="product" onchange="loadNominal();updateInput();updateSummary();">
+  <option value="">Pilih Game / E-Wallet</option>
+  <option value="ml">Mobile Legends</option>
+  <option value="ff">Free Fire</option>
+  <option value="roblox">Roblox</option>
+  <option value="genshin">Genshin Impact</option>
+  <option value="pubg">PUBG Mobile</option>
+  <option value="dana">DANA</option>
+  <option value="ovo">OVO</option>
+  <option value="gopay">GoPay</option>
+  <option value="shopee">ShopeePay</option>
+</select>
+</div>
+
+<div class="field">
+<label id="userLabel">ID Game / Username</label>
+<input id="userid" oninput="updateSummary()">
+</div>
+
+<div class="field">
+<label>Nominal</label>
+<select id="nominal" onchange="showPrice();updateSummary()">
+  <option value="">Pilih Nominal</option>
+</select>
+</div>
+
+<div class="price" id="price">Harga: -</div>
+
+<div class="summary" id="summary">
+<b>Ringkasan</b><br>
+Produk: -<br>
+ID / No: -<br>
+Nominal: -
+</div>
+
+<button onclick="orderNow()">PROSES SEKARANG</button>
+<div class="loader" id="loader">⏳ Menghubungkan ke WhatsApp…</div>
+</div>
+
+<div class="card">
+<h2>ℹ️ Tentang Kami</h2>
+DTPstore adalah layanan top up game dan e-wallet yang mengutamakan
+kecepatan, keamanan, dan kemudahan transaksi bagi gamer Indonesia.
+</div>
+
+<div class="card">
+<h2>📞 Kontak</h2>
+WhatsApp: 0822-5765-6822<br>
+Layanan aktif setiap hari
+</div>
+
+</div>
+
+<footer>
+© 2025 DTPstore — Power Up Your Game
+</footer>
+
+<script>
+const ewallets=["dana","ovo","gopay","shopee"];
+const data={
+  ml:{"86 Diamond":20000},
+  ff:{"70 Diamond":10000},
+  roblox:{"400 Robux":60000},
+  genshin:{"Blessing Welkin":58000},
+  pubg:{"60 UC":14000},
+  dana:{"10.000":11000},
+  ovo:{"10.000":11000},
+  gopay:{"20.000":21000},
+  shopee:{"25.000":26000}
+};
+
+function updateInput(){
+  if(ewallets.includes(product.value)){
+    userLabel.innerText="No E-Wallet";
+    userid.type="tel";
+    userid.inputMode="numeric";
+    userid.placeholder="Masukkan nomor e-wallet";
+  }else{
+    userLabel.innerText="ID Game / Username";
+    userid.type="text";
+    userid.placeholder="Masukkan ID atau username";
+  }
+  userid.value="";
+}
+
+function loadNominal(){
+  nominal.innerHTML='<option value="">Pilih Nominal</option>';
+  if(data[product.value]){
+    for(let x in data[product.value]){
+      nominal.innerHTML+=`<option>${x}</option>`;
+    }
+  }
+  price.innerText="Harga: -";
+}
+
+function showPrice(){
+  if(product.value && nominal.value){
+    const h=data[product.value][nominal.value]-1000;
+    price.innerText="Harga: Rp "+h.toLocaleString("id-ID");
+  }
+}
+
+function updateSummary(){
+  summary.innerHTML=
+  `<b>Ringkasan</b><br>
+  Produk: ${product.value||"-"}<br>
+  ID / No: ${userid.value||"-"}<br>
+  Nominal: ${nominal.value||"-"}`;
+}
+
+function orderNow(){
+  if(!product.value||!nominal.value||!userid.value){
+    alert("Lengkapi data terlebih dahulu!");
+    return;
+  }
+  loader.style.display="block";
+  setTimeout(()=>{
+    const msg=
+`Halo DTPstore,
+Produk: ${product.value}
+ID / No: ${userid.value}
+Nominal: ${nominal.value}
+${price.innerText}`;
+    window.open(
+      "https://wa.me/6282257656822?text="+encodeURIComponent(msg),
+      "_blank"
+    );
+    loader.style.display="none";
+  },1000);
+}
+</script>
+
+</body>
+</html>
